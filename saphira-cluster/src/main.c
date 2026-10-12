@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /* Command dispatch. K&R-compatible C89. */
 
 #include <stdio.h>

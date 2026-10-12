@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /* Read-only node health checks. Exit SC_FAIL on any failure. */
 
 #define _POSIX_C_SOURCE 200809L

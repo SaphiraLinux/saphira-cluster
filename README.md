@@ -21,22 +21,26 @@ pretends to do.
 
 ## Layout and boundary
 
-| Path               | Contents                                     | May contain site data? |
-|--------------------|----------------------------------------------|------------------------|
-| `slurm/`           | Upstream Slurm packaging (client, libs)      | Never                  |
-| `slurm-slurmd/`    | Compute-node daemon packaging                | Never                  |
-| `slurm-slurmctld/` | Controller packaging                         | Never                  |
-| `slurm-slurmdbd/`  | Accounting daemon packaging (optional use)   | Never                  |
-| `saphira-cluster/` | Saphira management logic (C)                 | Never                  |
-| `docs/`            | Policy, matrices, acceptance plan            | Never                  |
-| `docs/examples/`   | Walkthroughs naming real machines            | Yes, docs only         |
-| Runtime config     | Generated on the target by `saphira-cluster` | Never committed        |
+Two products live here. Slurm has an optional accounting companion
+package; that is a third recipe, not a third product.
+
+| Path                        | Contents                                    | May contain site data? |
+|-----------------------------|---------------------------------------------|------------------------|
+| `recipes/slurm/`            | Slurm core (clients, ctld, slurmd, sackd)   | Never                  |
+| `recipes/slurm-accounting/` | Optional slurmdbd + mysql plugin            | Never                  |
+| `recipes/saphira-cluster/`  | Our C utility as an APK                     | Never                  |
+| `saphira-cluster/`          | C source, man page, tests (not the recipe)  | Never                  |
+| `docs/`                     | Policy, matrices, acceptance plan           | Never                  |
+| `docs/examples/`            | Walkthroughs naming real machines           | Yes, docs only         |
+| Runtime config              | Generated on the target                     | Never committed        |
 
 Someone downloading Saphira's Slurm package anywhere receives exactly
 the same package installed on our own controller; only
 `saphira-cluster` turns it into their cluster. Installed templates use
 generic placeholders (`controller`, `node01`, `node02`). The packages
-never enable daemons and never create a cluster on install.
+never enable daemons and never create a cluster on install. A normal
+cluster is `apk add slurm saphira-cluster`; accounting adds
+`apk add slurm-accounting`.
 
 ## Status
 

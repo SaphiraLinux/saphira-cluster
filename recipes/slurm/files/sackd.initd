@@ -13,5 +13,6 @@ depend()
 
 start_pre()
 {
+	checkpath -d -m 0755 -o slurm:slurm /var/run/sackd
 	checkpath -d -m 0755 -o slurm:slurm /var/log/slurm
 }

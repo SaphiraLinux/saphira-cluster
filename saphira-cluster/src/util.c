@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /* Shared read-only helpers. */
 
 #define _POSIX_C_SOURCE 200809L

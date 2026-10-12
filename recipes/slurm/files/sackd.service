@@ -7,6 +7,10 @@ Wants=network-online.target
 Type=notify
 User=slurm
 Group=slurm
+# sackd's configless fetch cache defaults to /run/slurm/conf;
+# RUNTIME_DIRECTORY (honored only by sackd) points it at the Saphira
+# runtime root instead. The directory converges via tmpfiles.d.
+Environment=RUNTIME_DIRECTORY=/var/run/sackd
 ExecStart=/usr/sbin/sackd --systemd
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process

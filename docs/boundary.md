@@ -21,14 +21,23 @@ Slurm packaging is completely site-neutral.
 ## Directory contract
 
 ```text
-slurm/recipe.sh        upstream software packaging (client, libs, plugins)
-slurm/files/           only required portable integration
-                         (units live with the daemon that owns them)
-saphira-cluster/       Saphira management logic (C, man page, tests)
-docs/                  policy, matrices, acceptance plan (generic names)
-docs/examples/         real-machine walkthroughs allowed (docs only)
-runtime configuration  generated on the target, never committed
+recipes/slurm/             Slurm core product (clients, ctld, slurmd, sackd)
+recipes/slurm/files/       only required portable integration
+recipes/slurm-accounting/  optional companion (slurmdbd + mysql plugin)
+recipes/saphira-cluster/   our C utility as an APK (builds the vendored
+                           source tarball packed from saphira-cluster/)
+saphira-cluster/           Saphira management logic: C source, man page,
+                           tests. Source code, not the package recipe.
+docs/                      policy, matrices, acceptance plan (generic names)
+docs/examples/             real-machine walkthroughs allowed (docs only)
+runtime configuration      generated on the target, never committed
 ```
+
+One owner per upstream man page: `slurm-doc` (a subpackage of the core
+recipe) owns all upstream Slurm documentation including `slurmdbd(8)`
+and `slurmdbd.conf(5)`, so installing `slurm-doc` beside
+`slurm-accounting` can never collide. `slurm-accounting` ships no man
+pages. `saphira-cluster-doc` owns our utility's man page.
 
 ## Leak check
 
@@ -36,8 +45,8 @@ Before commit, from the repo root:
 
 ```sh
 grep -rniE "keeper|homer|minimer|akadata|saphira\.vm2|192\.168\.|10\.|fd[0-9a-f]{2}:" \
-  slurm slurm-slurmd slurm-slurmctld slurm-slurmdbd saphira-cluster \
-  --exclude='*.tar.bz2*' | grep -v "^Binary"
+  recipes saphira-cluster \
+  --exclude='*.tar.bz2*' --exclude='*.tar' | grep -v "^Binary"
 ```
 
 Only the byte-identical upstream archives are excluded, never the

@@ -4,14 +4,12 @@ Decided before building so a needed plugin is never discovered missing
 six months later. "Build" means compiled in; "runtime" means required
 to run. The two are kept deliberately separate.
 
-## r1: build in
+## r1: build in (core recipe)
 
 - cgroup v2 (`--enable-cgroupv2`, explicit/fail-closed).
 - Configless operation (`SlurmctldParameters=enable_configless` is a
   runtime default in generated configs; no build flag needed).
 - `auth/slurm` (built in, no extra dependency).
-- MariaDB accounting plugin + `slurmdbd` (via `--with-mysql_config`;
-  builder trial must confirm `mysql_config` in `mariadb-dev`).
 - hwloc topology (`--with-hwloc`).
 - JSON output (`--with-json`), lz4 (`--with-lz4`), readline CLI
   (`--with-readline`).
@@ -20,6 +18,19 @@ to run. The two are kept deliberately separate.
   CUDA toolkit at build time.
 - PAM module: default (not forced; `--enable-pam` needs a proven
   `pam_dir` first).
+- Explicitly **no** MySQL (`--without-mysql_config`): without the flag
+  configure auto-searches for `mysql_config`/`mariadb_config`, so the
+  flag is what keeps core deterministically database-free. Verified in
+  `auxdir/x_ac_databases.m4`; the recipe fails the build if any MySQL
+  artifact appears in the core payload.
+
+## The one matrix delta: slurm-accounting
+
+`recipes/slurm-accounting` uses the identical matrix plus
+`--with-mysql_config=/usr/bin`, which makes configure fail closed when
+the MariaDB development tooling is absent. The delta gates only
+`slurmdbd` and `accounting_storage_mysql.so` — nothing in the core
+plugin set — so both outputs share one plugin ABI.
 
 ## r1: deliberately out (follow-up packages, not silent gaps)
 
@@ -39,11 +50,13 @@ to run. The two are kept deliberately separate.
 
 ## Runtime dependency discipline
 
-- `slurm` (client): hwloc, json-c, lz4, readline only.
-- `slurm-slurmd`, `slurm-slurmctld`: `slurm` only.
-- `slurm-slurmdbd`: `slurm` + `mariadb`.
-- No compute node ever depends on MariaDB or NVIDIA libraries because
-  an optional plugin was compiled in.
+- `slurm` (core: clients, ctld, slurmd, sackd): hwloc, json-c, lz4,
+  readline only. Never MariaDB.
+- `slurm-accounting` (slurmdbd + mysql plugin): `slurm` + `mariadb`.
+- No compute node ever depends on MariaDB because an optional plugin
+  was compiled in. Documentation ownership: `slurm-doc` owns every
+  upstream man page including `slurmdbd(8)`; `slurm-accounting` ships
+  none.
 
 ## Cluster levels (for documentation)
 
