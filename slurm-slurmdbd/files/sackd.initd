@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+
+description="Slurm auth and cred kiosk daemon"
+
+command="/usr/sbin/sackd"
+# Foreground: supervise-daemon tracks the process directly.
+command_args="-D"
+
+depend()
+{
+	use net logger dns
+}
+
+start_pre()
+{
+	checkpath -d -m 0755 -o slurm:slurm /var/log/slurm
+}

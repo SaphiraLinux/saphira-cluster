@@ -1,0 +1,20 @@
+#!/sbin/openrc-run
+
+description="Slurm accounting daemon"
+
+command="/usr/sbin/slurmdbd"
+# Foreground: supervise-daemon tracks the process directly.
+command_args="-D"
+# slurmdbd cannot run without the live configuration that
+# saphira-cluster generates on the target.
+required_files="/etc/slurm/slurmdbd.conf"
+
+depend()
+{
+	use net logger dns
+}
+
+start_pre()
+{
+	checkpath -d -m 0755 -o slurm:slurm /var/log/slurm
+}

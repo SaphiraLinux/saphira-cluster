@@ -1,0 +1,7 @@
+# Vendored upstream archives stay out of exported/public archives;
+# builders fetch them via the recipe URLs. (Mirrors the recipe
+# collection's pure-text public mirror policy.)
+slurm/files/*.tar.bz2 export-ignore
+slurm-slurmd/files/*.tar.bz2 export-ignore
+slurm-slurmctld/files/*.tar.bz2 export-ignore
+slurm-slurmdbd/files/*.tar.bz2 export-ignore

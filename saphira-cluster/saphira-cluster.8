@@ -1,0 +1,100 @@
+.TH SAPHIRA-CLUSTER 8 "October 2026" "saphira-cluster 0.1.0" "Saphira"
+.SH NAME
+saphira-cluster \- configure and protect Saphira hosts for Slurm
+.SH SYNOPSIS
+.B saphira-cluster
+.I command
+.RI [ options ]
+.SH DESCRIPTION
+.B saphira-cluster
+is the Saphira cluster control utility.
+It discovers local capability, applies the Saphira service-reservation
+policy, generates and validates Slurm configuration, manages node
+enrolment, and reports cluster state.
+.PP
+It is not a scheduler.
+Slurm schedules compute; LVS/ldirectord distribute service traffic;
+.B saphira-cluster
+configures and protects the hosts.
+.PP
+This is reserved-capacity clustering: Slurm is told only the resources
+left after statically reserving service capacity, and it schedules
+exactly that.
+Dynamic idle harvesting is explicitly out of scope for v1.
+.SH COMMANDS
+.TP
+.B init
+.IB name " --controller " host
+Start a new cluster definition. Unimplemented in the scaffold.
+.TP
+.BI "node add " host " [--reserve-cpus " N "] [--reserve-memory " SIZE "] [--gpu " auto "] [--gpu-share " SPEC "] [--no-exec]"
+Enrol a node. Unimplemented in the scaffold.
+.TP
+.BI "node remove " host
+Drop a node. Unimplemented in the scaffold.
+.TP
+.B apply
+Write generated configuration. Unimplemented in the scaffold.
+.TP
+.B validate
+Check generated configuration. Unimplemented in the scaffold.
+.TP
+.B status
+Show cluster state. Unimplemented in the scaffold.
+.TP
+.B resources
+Show local CPU, memory and GPU capability, read-only.
+.TP
+.B doctor
+Run read-only node health checks: hostname resolution, IPv6, clock
+synchronisation, cgroup v2, the slurm identity, Slurm version-line
+consistency, Slurm ports, and
+.BR slurmd " -C"
+capability output. Changes nothing. Never alters firewall rules.
+.TP
+.B help
+Show help text.
+.TP
+.B version
+Show version.
+.SH OPTIONS
+.TP
+.B --help
+Show help text; accepted anywhere.
+.TP
+.B --version
+Show version; accepted anywhere.
+.SH "EXIT CODES"
+.TP
+.B 0
+Success.
+.TP
+.B 1
+Usage error.
+.TP
+.B 2
+A
+.B doctor
+check failed.
+.TP
+.B 3
+Parsed, but not implemented in this scaffold.
+.SH FILES
+.TP
+.I /etc/slurm/slurm.conf
+Live controller configuration, generated on the target.
+Never shipped in a package, never committed.
+.TP
+.I /etc/slurm/slurmdbd.conf
+Live accounting configuration, generated on the target.
+.SH "SEE ALSO"
+.BR sinfo (1),
+.BR srun (1),
+.BR slurm.conf (5)
+.SH NOTES
+Package payloads, service units and tests in this project are
+site-neutral and use generic placeholders
+.RI ( controller ,
+.IR node01 ,
+.IR node02 ).
+Real-machine walkthroughs live in the project documentation only.

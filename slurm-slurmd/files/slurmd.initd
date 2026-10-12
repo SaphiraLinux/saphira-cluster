@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+
+description="Slurm node daemon"
+
+command="/usr/sbin/slurmd"
+# Foreground: supervise-daemon tracks the process directly.
+command_args="-D"
+
+depend()
+{
+	use net logger dns
+}
+
+start_pre()
+{
+	checkpath -d -m 0755 /var/spool/slurmd
+	checkpath -d -m 0755 /var/log/slurm
+}

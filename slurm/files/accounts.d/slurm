@@ -1,0 +1,9 @@
+# Service identity declaration: slurm:111. New Saphira allocation in
+# the 0..199 package range for the Slurm daemons (SlurmUser=slurm).
+# Single owner: the slurm package; daemon outputs depend on slurm so
+# identities exist before any daemon is installed.
+group slurm 111
+user slurm 111 slurm /var/lib/slurm /sbin/nologin
+dir /var/spool/slurmctld 0755 slurm slurm
+dir /var/spool/slurmd 0755 root root
+dir /var/log/slurm 0755 slurm slurm

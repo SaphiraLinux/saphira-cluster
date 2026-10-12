@@ -1,0 +1,17 @@
+[Unit]
+Description=Slurm auth and cred kiosk daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=slurm
+Group=slurm
+ExecStart=/usr/sbin/sackd --systemd
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+LimitNOFILE=131072
+LimitMEMLOCK=infinity
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,46 @@
+# Packaging purity boundary
+
+Slurm packaging is completely site-neutral.
+
+- No hostnames, addresses, IPs, UUIDs, GPU IDs, ZFS datasets or local
+  topology in any `recipe.sh`, patch, installed default, service unit,
+  accounts fragment or package test. This is verified by leak grep
+  before every commit (see below).
+- Recipes package upstream capability; they never describe a deployment.
+- Installed configuration is upstream `.example` files only. Live
+  `slurm.conf`, `gres.conf`, `cgroup.conf`, `slurmdbd.conf`, bootstrap
+  state, discovered hardware data, credentials and cluster membership
+  are generated on the target by `saphira-cluster` and must never enter
+  this source tree.
+- Packages never enable daemons and never create a cluster on install.
+- Automated recipe tests use synthetic node names so they reproduce
+  outside our infrastructure.
+- `saphira-cluster` owns deployment policy and generated configuration;
+  the Slurm recipes know nothing about any particular cluster.
+
+## Directory contract
+
+```text
+slurm/recipe.sh        upstream software packaging (client, libs, plugins)
+slurm/files/           only required portable integration
+                         (units live with the daemon that owns them)
+saphira-cluster/       Saphira management logic (C, man page, tests)
+docs/                  policy, matrices, acceptance plan (generic names)
+docs/examples/         real-machine walkthroughs allowed (docs only)
+runtime configuration  generated on the target, never committed
+```
+
+## Leak check
+
+Before commit, from the repo root:
+
+```sh
+grep -rniE "keeper|homer|minimer|akadata|saphira\.vm2|192\.168\.|10\.|fd[0-9a-f]{2}:" \
+  slurm slurm-slurmd slurm-slurmctld slurm-slurmdbd saphira-cluster \
+  --exclude='*.tar.bz2*' | grep -v "^Binary"
+```
+
+Only the byte-identical upstream archives are excluded, never the
+whole `files/` tree: units, init scripts and identity fragments are
+scanned. `docs/examples/` is excluded: real
+names are allowed there and only there. Any other hit is a defect.
