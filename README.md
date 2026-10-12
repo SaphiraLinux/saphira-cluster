@@ -21,18 +21,19 @@ pretends to do.
 
 ## Layout and boundary
 
-Two products live here. Slurm has an optional accounting companion
-package; that is a third recipe, not a third product.
+Two products. Recipes live in the Saphira Linux recipe tree
+(`/recipes`) — never in this repo. This repo holds the
+`saphira-cluster` product source and the project documentation.
 
-| Path                        | Contents                                    | May contain site data? |
-|-----------------------------|---------------------------------------------|------------------------|
-| `recipes/slurm/`            | Slurm core (clients, ctld, slurmd, sackd)   | Never                  |
-| `recipes/slurm-accounting/` | Optional slurmdbd + mysql plugin            | Never                  |
-| `recipes/saphira-cluster/`  | Our C utility as an APK                     | Never                  |
-| `saphira-cluster/`          | C source, man page, tests (not the recipe)  | Never                  |
-| `docs/`                     | Policy, matrices, acceptance plan           | Never                  |
-| `docs/examples/`            | Walkthroughs naming real machines           | Yes, docs only         |
-| Runtime config              | Generated on the target                     | Never committed        |
+| Path                               | Contents                                 | May contain site data? |
+|------------------------------------|------------------------------------------|------------------------|
+| `/recipes/slurm/`                  | Slurm core (clients, ctld, slurmd, sackd)| Never                  |
+| `/recipes/slurm-accounting/`       | Optional slurmdbd + mysql plugin         | Never                  |
+| `/recipes/saphira-cluster/`        | Our C utility as an APK                  | Never                  |
+| `saphira-cluster/` (this repo)     | C source, man page, tests                | Never                  |
+| `docs/` (this repo)                | Policy, matrices, acceptance plan        | Never                  |
+| `docs/examples/` (this repo)       | Walkthroughs naming real machines        | Yes, docs only         |
+| Runtime config                     | Generated on the target                  | Never committed        |
 
 Someone downloading Saphira's Slurm package anywhere receives exactly
 the same package installed on our own controller; only

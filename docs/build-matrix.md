@@ -26,7 +26,7 @@ to run. The two are kept deliberately separate.
 
 ## The one matrix delta: slurm-accounting
 
-`recipes/slurm-accounting` uses the identical matrix plus
+`/recipes/slurm-accounting` uses the identical matrix plus
 `--with-mysql_config=/usr/bin`, which makes configure fail closed when
 the MariaDB development tooling is absent. The delta gates only
 `slurmdbd` and `accounting_storage_mysql.so` — nothing in the core

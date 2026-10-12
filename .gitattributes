@@ -1,8 +1,0 @@
-# Vendored upstream archives stay out of exported/public archives;
-# builders fetch them via the recipe URLs. (Mirrors the recipe
-# collection's pure-text public mirror policy.)
-recipes/slurm/files/*.tar.bz2 export-ignore
-recipes/slurm-accounting/files/*.tar.bz2 export-ignore
-# The saphira-cluster source tarball is our own code packed from this
-# repo (see recipes/saphira-cluster/files/PROVENANCE.md) and travels
-# with the source like any other vendored file.

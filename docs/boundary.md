@@ -20,17 +20,22 @@ Slurm packaging is completely site-neutral.
 
 ## Directory contract
 
+Recipes belong to the Saphira Linux recipe tree (`/recipes`) and never
+to this repo. This repo holds the `saphira-cluster` product source and
+project documentation.
+
 ```text
-recipes/slurm/             Slurm core product (clients, ctld, slurmd, sackd)
-recipes/slurm/files/       only required portable integration
-recipes/slurm-accounting/  optional companion (slurmdbd + mysql plugin)
-recipes/saphira-cluster/   our C utility as an APK (builds the vendored
-                           source tarball packed from saphira-cluster/)
-saphira-cluster/           Saphira management logic: C source, man page,
-                           tests. Source code, not the package recipe.
-docs/                      policy, matrices, acceptance plan (generic names)
-docs/examples/             real-machine walkthroughs allowed (docs only)
-runtime configuration      generated on the target, never committed
+/recipes/slurm/              Slurm core product (clients, ctld, slurmd, sackd)
+/recipes/slurm/files/        only required portable integration
+/recipes/slurm-accounting/   optional companion (slurmdbd + mysql plugin)
+/recipes/saphira-cluster/    our C utility as an APK (builds the vendored
+                             source tarball packed from this repo's
+                             saphira-cluster/ directory)
+saphira-cluster/ (repo)      Saphira management logic: C source, man page,
+                             tests. Source code, not the package recipe.
+docs/ (repo)                 policy, matrices, acceptance plan (generic names)
+docs/examples/ (repo)        real-machine walkthroughs allowed (docs only)
+runtime configuration        generated on the target, never committed
 ```
 
 One owner per upstream man page: `slurm-doc` (a subpackage of the core
@@ -45,7 +50,8 @@ Before commit, from the repo root:
 
 ```sh
 grep -rniE "keeper|homer|minimer|akadata|saphira\.vm2|192\.168\.|10\.|fd[0-9a-f]{2}:" \
-  recipes saphira-cluster \
+  /recipes/slurm /recipes/slurm-accounting /recipes/saphira-cluster \
+  saphira-cluster \
   --exclude='*.tar.bz2*' --exclude='*.tar' | grep -v "^Binary"
 ```
 
