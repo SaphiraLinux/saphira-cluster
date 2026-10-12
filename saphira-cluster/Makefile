@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: BUSL-1.1
 # Developer convenience only. The Saphira package build, when this
 # becomes a recipe, goes through the builder like everything else;
 # this Makefile never substitutes for it.

@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: BUSL-1.1 */
 /* Read-only node health checks. Exit SC_FAIL on any failure. */
 
 #define _POSIX_C_SOURCE 200809L

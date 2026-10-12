@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: BUSL-1.1 */
 /* saphira-cluster: native control/configuration utility for Slurm
  * on Saphira. Discovers capability, applies reservation policy,
  * generates and validates Slurm configuration, manages enrolment,

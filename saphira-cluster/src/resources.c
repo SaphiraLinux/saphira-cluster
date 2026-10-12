@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: BUSL-1.1 */
 /* Show local hardware capability. Read-only. */
 
 #include <stdio.h>

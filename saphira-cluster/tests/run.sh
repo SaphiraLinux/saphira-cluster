@@ -1,4 +1,5 @@
 #!/bin/sh
+# SPDX-License-Identifier: BUSL-1.1
 # Scaffold CLI tests. Executed by the builder/host with a toolchain;
 # NOT run by the agent during scaffolding (see README status).
 # Usage: run.sh <path-to-saphira-cluster-binary>

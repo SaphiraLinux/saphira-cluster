@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: BUSL-1.1 */
 /* Single source of --help truth. The man page mirrors this. */
 
 #include <stdio.h>
